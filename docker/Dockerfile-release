@@ -5,7 +5,7 @@ COPY . /usr/local/src/api-app
 WORKDIR /usr/local/src/api-app
 
 # Collect admin's static assets silently
-RUN python manage.py collectstatic --noinput > /dev/null 2>&1
+RUN python manage.py collectstatic --noinput
 
 # The port that the gunicorn web application is running
 EXPOSE 80
