@@ -26,7 +26,7 @@ jobs:
     - setup_remote_docker
     - run: set -e
     - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-    # - run: ./docker/bin/build.sh
+    - run: ./docker/bin/build.sh
     # Save dependency cache
     - save_cache:
         key: v1-dep-{{ .Branch }}-{{ epoch }}
