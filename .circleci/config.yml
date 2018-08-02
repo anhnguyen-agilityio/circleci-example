@@ -25,7 +25,7 @@ jobs:
     # This is based on your 1.0 configuration file or project settings
     - setup_remote_docker
     - run: set -e
-    - run: docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+    - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
     # - run: ./docker/bin/build.sh
     # Save dependency cache
     - save_cache:
