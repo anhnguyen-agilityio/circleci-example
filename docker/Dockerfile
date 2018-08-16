@@ -1,11 +1,12 @@
 FROM anhnguyenkim/docker-img-django:develop
 
-COPY . /usr/local/src/api-app
+COPY . /usr/local/src/django_ci
 
-WORKDIR /usr/local/src/api-app
+WORKDIR /usr/local/src/django_ci
 
 # Collect admin's static assets silently
-RUN python manage.py collectstatic --noinput > /dev/null 2>&1
+RUN cd django_ci && python manage.py collectstatic
+# --noinput > /dev/null 2>&1
 
 # The port that the gunicorn web application is running
 EXPOSE 80
