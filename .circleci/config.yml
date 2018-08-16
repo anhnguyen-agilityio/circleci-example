@@ -6,8 +6,10 @@ jobs:
       - image: circleci/python:3.5-stretch-browsers
       - image: postgres:9.4.1
         environment:
-          POSTGRES_USER: ubuntu
-          POSTGRES_DB: contacts
+          POSTGRES_HOST: 127.0.0.1
+          POSTGRES_USER: testdb
+          POSTGRES_PASSWORD: testdb
+          POSTGRES_DB: testdb
     working_directory: ~/anhnguyen/api-app
 
     environment:
@@ -21,7 +23,7 @@ jobs:
           command: |
             for i in `seq 1 10`;
             do
-              nc -z localhost 5432 && echo Success && exit 0
+              nc -z 127.0.0.1 5432 && echo Success && exit 0
               echo -n .
               sleep 1
             done
@@ -37,7 +39,7 @@ jobs:
       - run:
           name: Run unit test
           environment:
-            DATABASE_URL: "postgres://ubuntu@localhost:5432/contacts?sslmode=disable"
+            DATABASE_URL: "postgres://testdb@127.0.0.1:5432/testdb?sslmode=disable"
           command: ./docker/test/test.sh
 
       # - run:
