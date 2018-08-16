@@ -38,7 +38,7 @@ jobs:
           name: Run unit test
           environment:
             DATABASE_URL: "postgres://ubuntu@localhost:5432/contacts?sslmode=disable"
-          command: ./docker/test/test.sh
+          command: psql -h postgres -U postgres
 
       # - run:
       #     name: Run unit tests
