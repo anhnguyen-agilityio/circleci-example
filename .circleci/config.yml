@@ -40,17 +40,17 @@ jobs:
             DATABASE_URL: "postgres://ubuntu@localhost:5432/contacts?sslmode=disable"
           command: ./docker/test/test.sh
 
-      - run:
-          name: Run unit tests
-          environment:
-            DATABASE_URL: "postgres://ubuntu@localhost:5432/contacts?sslmode=disable"
-            DB_MIGRATIONS: /go/src/github.com/circleci/cci-demo-docker/db/migrations
-          command: |
-            set -ou pipefail
-            trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
-            # Notice this `set -o pipefail`, this will cause script to fail if `make test` fails
-            # without this option script will return success regardless of testing result due to pipe after test command
-            make test | tee ${TEST_RESULTS}/go-test.out
+      # - run:
+      #     name: Run unit tests
+      #     environment:
+      #       DATABASE_URL: "postgres://ubuntu@localhost:5432/contacts?sslmode=disable"
+      #       DB_MIGRATIONS: /go/src/github.com/circleci/cci-demo-docker/db/migrations
+      #     command: |
+      #       set -ou pipefail
+      #       trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
+      #       # Notice this `set -o pipefail`, this will cause script to fail if `make test` fails
+      #       # without this option script will return success regardless of testing result due to pipe after test command
+      #       make test | tee ${TEST_RESULTS}/go-test.out
 
       # - setup_remote_docker
 
