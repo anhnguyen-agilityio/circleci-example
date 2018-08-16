@@ -2,7 +2,7 @@
 
 tags
 media
-/static/
+*/static/
 
 ### macOS ###
 *.DS_Store
