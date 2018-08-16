@@ -68,7 +68,7 @@ jobs:
     - run:
         name: Test
         command: echo "Test"
-        command: ./docker/bin/test.sh
+        command: ./docker/test/test.sh
 workflows:
   version: 2
   build_and_test:
