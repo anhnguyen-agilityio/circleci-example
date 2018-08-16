@@ -18,5 +18,7 @@ docker run \
     --net=host \
     -e POSTGRES_USER='ubuntu' \
     -e POSTGRES_DB='testdb' \
+    -e POSTGRES_HOST='localhost' \
+    -e POSTGRES_PORT='5432' \
     test-container \
     sh -c "bin/dj-test.sh $@"
