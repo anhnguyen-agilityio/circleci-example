@@ -38,8 +38,9 @@ jobs:
           name: Run unit test
           environment:
             DATABASE_URL: "postgres://ubuntu@localhost:5432/contacts?sslmode=disable"
-          command: psql -h postgres -U postgres
-
+          command: |
+            set -ou pipefail
+            ./bin/dj-test.sh
       # - run:
       #     name: Run unit tests
       #     environment:
