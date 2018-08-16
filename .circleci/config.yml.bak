@@ -1,0 +1,95 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/anhnguyen/api-app
+    parallelism: 1
+    shell: /bin/bash --login
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+      GROUP: django_ci_anhnguyen
+      REPO: api-app
+    docker:
+    - image: circleci/python:3.5-stretch-browsers
+    - image: circleci/postgres:9.6-alpine-ram
+      environment:
+        POSTGRES_USER: ubuntu
+        POSTGRES_DB: testdb
+    steps:
+    - checkout
+
+    - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+
+    - restore_cache:
+        keys:
+        # This branch if available
+        - v1-dep-{{ .Branch }}-
+        # Default branch if not
+        - v1-dep-develop-
+        # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch configured correctly
+        - v1-dep-
+    # This is based on your 1.0 configuration file or project settings
+    - setup_remote_docker
+    - run: set -e
+    - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+    - run:
+        name: Build Image
+        command: ./docker/bin/build.sh
+
+    - run:
+        name: Run Test
+        command: echo "Test"
+        command: ./docker/test/test.sh
+    # Save dependency cache
+    - save_cache:
+        key: v1-dep-{{ .Branch }}-{{ epoch }}
+        paths:
+        # This is a broad list of cache paths to include many possible development environments
+        # You can probably delete some of these entries
+        - vendor/bundle
+        - ~/virtualenvs
+        - ~/.m2
+        - ~/.ivy2
+        - ~/.bundle
+        - ~/.go_workspace
+        - ~/.gradle
+        - ~/.cache/bower
+    # Test
+    #   This would typically be a build job when using workflows, possibly combined with build
+    # This is based on your 1.0 configuration file or project settings
+    # - run: ./docker/test/test.sh
+    # Deployment
+    # Your existing circle.yml file contains deployment steps.
+    # The config translation tool does not support translating deployment steps
+    # since deployment in CircleCI 2.0 are better handled through workflows.
+    # See the documentation for more information https://circleci.com/docs/2.0/workflows/
+    # Teardown
+    #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
+    # Save test results
+    - store_test_results:
+        path: /tmp/circleci-test-results
+    # Save artifacts
+    - store_artifacts:
+        path: /tmp/circleci-artifacts
+    - store_artifacts:
+        path: /tmp/circleci-test-results
+  # test:
+  #   docker:
+  #     - image: circleci/postgres:9.6-alpine-ram
+  #   steps:
+  #   - checkout
+  #   - setup_remote_docker
+  #   - run: set -e
+  #   - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+  #   - run:
+  #       name: Test
+  #       command: echo "Test"
+  #       command: ./docker/test/test.sh
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      # - test:
+      #     requires:
+      #       - build
