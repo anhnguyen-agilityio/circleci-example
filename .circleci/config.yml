@@ -65,6 +65,9 @@ jobs:
       - image: circleci/postgres:9.6-alpine-ram
     steps:
     - checkout
+    - setup_remote_docker
+    - run: set -e
+    - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
     - run:
         name: Test
         command: echo "Test"
