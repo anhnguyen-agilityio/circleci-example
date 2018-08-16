@@ -38,9 +38,8 @@ jobs:
           name: Run unit test
           environment:
             DATABASE_URL: "postgres://ubuntu@localhost:5432/contacts?sslmode=disable"
-          command: |
-            set -ou pipefail
-            ./bin/dj-test.sh
+          command: ./docker/test/test.sh
+
       # - run:
       #     name: Run unit tests
       #     environment:
