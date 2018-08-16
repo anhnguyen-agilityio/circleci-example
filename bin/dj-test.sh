@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-bin/dj.sh test
+python3 django_ci/manage.py test
