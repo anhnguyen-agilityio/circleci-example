@@ -27,5 +27,5 @@ fi
 
 docker build --rm=false \
     -t ${GROUP}/${REPO}:$CIRCLE_SHA1 \
-    -f $SRC_DIR/docker/Dockerfile-release \
+    -f $SRC_DIR/docker/Dockerfile \
     $SRC_DIR

@@ -1,6 +1,0 @@
-FROM anhnguyenkim/docker-whale-example:develop
-
-COPY . /usr/local/src/docker-whale
-
-WORKDIR /usr/local/src/docker-whale
-
