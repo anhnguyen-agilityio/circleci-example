@@ -16,10 +16,10 @@ docker run \
     --rm \
     --name test \
     --net=host \
-    -e POSTGRES_DB='postgres' \
+    -e POSTGRES_HOST=127.0.0.1 \
     -e POSTGRES_USER='postgres' \
     -e POSTGRES_PASSWORD='postgres' \
-    -e POSTGRES_HOST='127.0.0.1' \
-    -e POSTGRES_PORT='5432' \
+    -e POSTGRES_DB='postgres' \
+    -e POSTGRES_PORT=5432 \
     test-container \
     sh -c "bin/dj-test.sh $@"
