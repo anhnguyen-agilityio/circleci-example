@@ -1,4 +1,4 @@
-FROM anhnguyenkim/docker-whale-example
+FROM anhnguyenkim/docker-whale-example:develop
 
 COPY . /usr/local/src/docker-whale
 

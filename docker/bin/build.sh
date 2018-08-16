@@ -5,13 +5,15 @@ set -ev
 SCRIPT_DIR=`dirname "$0"`
 SRC_DIR=$(cd $SCRIPT_DIR/../..; pwd)
 
-echo '================='
 echo $SCRIPT_DIR
+
 echo $SRC_DIR
+
 echo $GROUP
+
 echo $REPO
+
 echo $CIRCLE_SHA1
-echo '================='
 
 if [[ -z "$GROUP" ]] ; then
     echo "Cannot find GROUP env var"
