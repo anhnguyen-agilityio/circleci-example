@@ -11,18 +11,24 @@ jobs:
       REPO: api-app
     docker:
     - image: circleci/python:3.5-stretch-browsers
-      environment:
-        PG_HOST: localhost
-        PG_USER: testuser
     - image: circleci/postgres:9.6-alpine-ram
       environment:
-        POSTGRES_HOST: localhost
-        POSTGRES_USER: testuser
-        POSTGRES_PASSWORD: testpwd
+        POSTGRES_USER: ubuntu
         POSTGRES_DB: testdb
     steps:
     - checkout
+    - run:
+      name: Waiting for Postgres to be ready
+      command: |
+        for i in `seq 1 10`;
+        do
+          nc -z localhost 5432 && echo Success && exit 0
+          echo -n .
+          sleep 1
+        done
+        echo Failed waiting for Postgress && exit 1
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+
     - restore_cache:
         keys:
         # This branch if available
