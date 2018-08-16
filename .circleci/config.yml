@@ -8,7 +8,7 @@ jobs:
         environment:
           POSTGRES_USER: ubuntu
           POSTGRES_DB: contacts
-    working_directory: /go/src/github.com/circleci/cci-demo-docker
+    working_directory: ~/anhnguyen/api-app
 
     environment:
       TEST_RESULTS: /tmp/test-results
