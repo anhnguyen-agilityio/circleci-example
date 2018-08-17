@@ -14,8 +14,8 @@ jobs:
 
     environment:
       TEST_RESULTS: /tmp/test-results
-      GROUP: djci
-      REPO: circleci-example
+      GROUP: anhnguyenkim
+      REPO: docker-whale-example
 
     steps:
       - checkout
