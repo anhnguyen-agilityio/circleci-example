@@ -10,10 +10,12 @@ jobs:
           POSTGRES_USER: testdb
           POSTGRES_PASSWORD: testdb
           POSTGRES_DB: testdb
-    working_directory: ~/anhnguyen/api-app
+    working_directory: ~/anhnguyen/circleci-example
 
     environment:
       TEST_RESULTS: /tmp/test-results
+      GROUP: djci
+      REPO: circleci-example
 
     steps:
       - checkout
