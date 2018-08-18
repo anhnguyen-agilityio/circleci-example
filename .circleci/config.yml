@@ -47,7 +47,7 @@ jobs:
       #     command: ./docker/test/test.sh
       - run:
           name: Run Postgres container
-          command: docker run -e POSTGRES_USER='testdb' -e POSTGRES_DB='testdb' -e POSTGRES_PASSWORD='testdb' -e POSTGRES_HOST=127.0.0.1 -e POSTGRES_HOST=127.0.0.1 --name dbtest -p 5432:5432 postgres:9.5-alpine
+          command: docker run -d -e POSTGRES_USER='testdb' -e POSTGRES_DB='testdb' -e POSTGRES_PASSWORD='testdb' -e POSTGRES_HOST=127.0.0.1 -e POSTGRES_HOST=127.0.0.1 --name dbtest -p 5432:5432 postgres:9.5-alpine
 
       - run:
           name: Build and push Docker image
