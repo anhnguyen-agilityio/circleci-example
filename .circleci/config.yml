@@ -5,7 +5,7 @@ jobs:
       # using custom image, see .circleci/images/primary/Dockerfile
       - image: circleci/python:3.5-stretch-browsers
       - image: postgres:9.4.1
-        name: dbtest
+        container_name: dbtest
         environment:
           POSTGRES_USER: testdb
           POSTGRES_PASSWORD: testdb
@@ -59,7 +59,7 @@ jobs:
       - run:
           name: Check
           command: |
-            docker ps
+            docker images
 
       # - run:
           # name: Build and push Docker image
