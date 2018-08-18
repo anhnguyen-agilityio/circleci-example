@@ -6,6 +6,7 @@ jobs:
       - image: circleci/python:3.5-stretch-browsers
       - image: postgres:9.4.1
         name: dbtest
+        port: 5432
         environment:
           POSTGRES_USER: testdb
           POSTGRES_PASSWORD: testdb
@@ -38,8 +39,6 @@ jobs:
       - run: |
           set -e
           docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker ps
-
 
       # - run:
       #     name: Run unit test
@@ -57,11 +56,6 @@ jobs:
           name: Test
           command: |
             ./docker/test/test.sh
-
-      - run:
-          name: Check
-          command: |
-            docker images
 
       # - run:
           # name: Build and push Docker image
