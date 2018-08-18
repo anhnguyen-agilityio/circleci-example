@@ -51,6 +51,12 @@ jobs:
             ./docker/bin/build.sh
             # ./docker/bin/push.sh
 
+      - run:
+          name: Test
+          command: |
+            ./docker/test/test.sh
+            # ./docker/bin/push.sh
+
       # - run:
           # name: Build and push Docker image
           # command: |
