@@ -15,7 +15,6 @@ echo "Testing $1"
 docker run \
     --rm \
     --name test \
-    --net=host \
     --link dbtest:dbtest \
     -e POSTGRES_HOST='dbtest' \
     -e POSTGRES_USER='testdb' \
