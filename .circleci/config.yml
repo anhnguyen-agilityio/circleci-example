@@ -23,7 +23,6 @@ jobs:
       - run:
           name: Waiting for Postgres to be ready
           command: |
-            docker ps
             for i in `seq 1 10`;
             do
               nc -z dbtest 5432 && echo Success && exit 0
@@ -39,6 +38,8 @@ jobs:
       - run: |
           set -e
           docker login -u $DOCKER_USER -p $DOCKER_PASS
+          docker ps
+
 
       # - run:
       #     name: Run unit test
