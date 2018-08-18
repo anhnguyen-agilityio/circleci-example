@@ -16,7 +16,8 @@ docker run \
     --rm \
     --name test \
     --net=host \
-    -e POSTGRES_HOST='localhost' \
+    --link dbtest:dbtest \
+    -e POSTGRES_HOST='dbtest' \
     -e POSTGRES_USER='testdb' \
     -e POSTGRES_PASSWORD='testdb' \
     -e POSTGRES_DB='testdb' \
