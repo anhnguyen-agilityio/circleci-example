@@ -7,7 +7,6 @@ jobs:
       - image: postgres:9.4.1
         name: dbtest
         environment:
-          POSTGRES_HOST: 127.0.0.1
           POSTGRES_USER: testdb
           POSTGRES_PASSWORD: testdb
           POSTGRES_DB: testdb
@@ -26,7 +25,7 @@ jobs:
           command: |
             for i in `seq 1 10`;
             do
-              nc -z 127.0.0.1 5432 && echo Success && exit 0
+              nc -z dbtest 5432 && echo Success && exit 0
               echo -n .
               sleep 1
             done
