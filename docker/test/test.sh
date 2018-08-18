@@ -21,5 +21,6 @@ docker run \
     -e POSTGRES_PASSWORD='testdb' \
     -e POSTGRES_DB='testdb' \
     -e POSTGRES_PORT='5432' \
-    test-container \
-    sh -c "bin/dj-test.sh $@"
+    test-container
+    # \
+    # sh -c "bin/dj-test.sh $@"
