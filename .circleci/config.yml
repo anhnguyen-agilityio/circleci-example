@@ -5,6 +5,7 @@ jobs:
       # using custom image, see .circleci/images/primary/Dockerfile
       - image: circleci/python:3.5-stretch-browsers
       - image: postgres:9.4.1
+        name: dbtest
         environment:
           POSTGRES_HOST: 127.0.0.1
           POSTGRES_USER: testdb
@@ -35,8 +36,9 @@ jobs:
 
       - setup_remote_docker
 
-      - run: set -e
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run: |
+          set -e
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
 
       # - run:
       #     name: Run unit test
@@ -48,7 +50,7 @@ jobs:
           name: Build and push Docker image
           command: |
             ./docker/bin/build.sh
-            ./docker/bin/push.sh
+            # ./docker/bin/push.sh
 
       # - run:
           # name: Build and push Docker image
