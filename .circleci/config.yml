@@ -1,51 +1,40 @@
 version: 2
 jobs:
   build:
-    docker:
-      # using custom image, see .circleci/images/primary/Dockerfile
-      - image: circleci/python:3.5-stretch-browsers
-      # - image: postgres:9.4.1
-      #   name: dbtest
-      #   ports: 5432
-      #   environment:
-      #     POSTGRES_USER: testdb
-      #     POSTGRES_PASSWORD: testdb
-      #     POSTGRES_DB: testdb
     working_directory: ~/anhnguyen/circleci-example
-
+    parallelism: 1
     environment:
-      TEST_RESULTS: /tmp/test-results
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
       GROUP: anhnguyenkim
       REPO: docker-whale-example
-      DB_MIGRATE: true
+
+    docker:
+      - image: circleci/python:3.5
 
     steps:
       - checkout
+      - run:
+        name: Prepare for artifact and test results
+        command: |
+          mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
 
-      # - run:
-      #     name: Waiting for Postgres to be ready
-      #     command: |
-      #       for i in `seq 1 10`;
-      #       do
-      #         nc -z dbtest 5432 && echo Success && exit 0
-      #         echo -n .
-      #         sleep 1
-      #       done
-      #       echo Failed waiting for Postgress && exit 1
+      # Restore the dependency cache
+      - restore_cache:
+        keys:
+        # This branch if available
+        - v1-dep-{{ .Branch }}-
+        # Default branch if not
+        - v1-dep-develop-
+        # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch configured correctly
+        - v1-dep-
 
-      # - run: mkdir -p $TEST_RESULTS
 
       - setup_remote_docker
-
       - run: |
           set -e
           docker login -u $DOCKER_USER -p $DOCKER_PASS
 
-      # - run:
-      #     name: Run unit test
-      #     environment:
-      #       DATABASE_URL: "postgres://testdb@127.0.0.1:5432/testdb?sslmode=disable"
-      #     command: ./docker/test/test.sh
       - run:
           name: Run Postgres container
           command: |
@@ -59,27 +48,21 @@ jobs:
             postgres:9.5-alpine
 
       - run:
-          name: Build and push Docker image
+          name: Build Docker image
           command: |
             ./docker/bin/build.sh
-            # ./docker/bin/push.sh
 
       - run:
           name: Test
           command: |
             ./docker/test/test.sh
 
-      # - run:
-          # name: Build and push Docker image
-          # command: |
-          #   TAG="0.1.${CIRCLE_BUILD_NUM}"
-          #   docker build -t circleci/cci-demo-docker:$TAG .
-          #   docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
-          #   docker push circleci/cci-demo-docker:$TAG
-
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: raw-test-output
-
+      # Save test results
       - store_test_results:
-          path: /tmp/test-results
+          path: /tmp/circleci-test-results
+      # Save artifacts
+      - store_artifacts:
+          path: /tmp/circleci-artifacts
+      - store_artifacts:
+          path: /tmp/circleci-test-results
+
