@@ -60,8 +60,7 @@ jobs:
       - run:
           name: Build and push Docker image
           command: |
-            docker ps
-            # ./docker/bin/build.sh
+            ./docker/bin/build.sh
             # ./docker/bin/push.sh
 
       - run:
