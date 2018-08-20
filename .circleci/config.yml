@@ -59,6 +59,11 @@ jobs:
           command: |
             ./docker/test/test.sh
 
+      - run:
+          name: Push Docker image
+          command: |
+            ./docker/bin/push.sh
+
       # Save test results
       - store_test_results:
           path: /tmp/circleci-test-results
