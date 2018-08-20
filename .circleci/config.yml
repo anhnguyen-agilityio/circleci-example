@@ -17,6 +17,7 @@ jobs:
       TEST_RESULTS: /tmp/test-results
       GROUP: anhnguyenkim
       REPO: docker-whale-example
+      DB_MIGRATE: true
 
     steps:
       - checkout
