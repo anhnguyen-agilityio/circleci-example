@@ -14,10 +14,12 @@ jobs:
 
     steps:
       - checkout
+
+      # Prepare for artifact and test results
       - run:
-        name: Prepare for artifact and test results
-        command: |
-          mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+          name: Prepare for artifact and test results
+          command: |
+            mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
 
       # Restore the dependency cache
       - restore_cache:
