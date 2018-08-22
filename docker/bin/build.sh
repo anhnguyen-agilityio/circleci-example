@@ -15,6 +15,8 @@ echo $REPO
 
 echo $CIRCLE_SHA1
 
+echo "Db Migrate: $DB_MIGRATE"
+
 if [[ -z "$GROUP" ]] ; then
     echo "Cannot find GROUP env var"
     exit 1
