@@ -14,6 +14,7 @@ jobs:
 
     steps:
       - checkout
+      - setup_remote_docker
 
       # Prepare for artifact and test results
       - run:
