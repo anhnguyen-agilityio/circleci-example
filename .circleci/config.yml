@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/anhnguyen/circleci-example
+    working_directory: ~/circleci-example
     parallelism: 1
     environment:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
@@ -14,62 +14,3 @@ jobs:
 
     steps:
       - checkout
-
-      # Prepare for artifact and test results
-      - run:
-          name: Prepare for artifact and test results
-          command: |
-            mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
-
-      # Restore the dependency cache
-      - restore_cache:
-          keys:
-            # This branch if available
-            - v1-dep-{{ .Branch }}-
-            # Default branch if not
-            - v1-dep-develop-
-            # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch configured correctly
-            - v1-dep-
-
-
-      - setup_remote_docker
-      - run: |
-          set -e
-          docker login -u $DOCKER_USER -p $DOCKER_PASS
-
-      - run:
-          name: Run Postgres container
-          command: |
-            docker run -d \
-            -e POSTGRES_USER='testdb' \
-            -e POSTGRES_DB='testdb' \
-            -e POSTGRES_PASSWORD='testdb' \
-            -e POSTGRES_HOST=127.0.0.1 \
-            --name dbtest \
-            -p 5432:5432 \
-            postgres:9.5-alpine
-
-      - run:
-          name: Build Docker image
-          command: |
-            ./docker/bin/build.sh
-
-      - run:
-          name: Test
-          command: |
-            ./docker/test/test.sh
-
-      - run:
-          name: Push Docker image
-          command: |
-            ./docker/bin/push.sh
-
-      # Save test results
-      - store_test_results:
-          path: /tmp/circleci-test-results
-      # Save artifacts
-      - store_artifacts:
-          path: /tmp/circleci-artifacts
-      - store_artifacts:
-          path: /tmp/circleci-test-results
-
