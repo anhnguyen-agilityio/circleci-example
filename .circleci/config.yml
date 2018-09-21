@@ -3,15 +3,47 @@ jobs:
   build:
     working_directory: ~/circleci-example
     parallelism: 1
-    machine: true
+    # machine: true
     environment:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
       CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
       GROUP: anhnguyenkim
       REPO: docker-whale-example
 
-    # docker:
-    #   - image: circleci/python:3.5
+    docker:
+      - image: circleci/python:3.5
 
     steps:
       - checkout
+      - setup_remote_docker
+      - run:
+          name: Pull docker image
+          command: |
+            set -e
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker pull anhnguyenkim/docker-whale-example:develop
+  test:
+    working_directory: ~/circleci-example
+    parallelism: 1
+    # machine: true
+    docker:
+      - image: circleci/python:3.5
+
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Check Docker image
+          command: |
+            set -e
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker ps
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
