@@ -8,19 +8,19 @@ jobs:
     steps:
       - checkout
       - run: mkdir bucket && echo "lorem ipsum" > bucket/index.txt
-
   test:
     docker:
       - image: 'cimg/python:3.6'
     steps:
       - checkout
-      - aws-s3/sync:
-        arguments: |
-          --acl public-read \
-          --cache-control "max-age=86400"
-        from: bucket
-        overwrite: true
-        to: 's3://fair-registration.concourseglobal.net'
+      - run: mkdir bucket && echo "lorem ipsum" > bucket/index-2.txt
+      # - aws-s3/sync:
+      #   arguments: |
+      #     --acl public-read \
+      #     --cache-control "max-age=86400"
+      #   from: bucket
+      #   overwrite: true
+      #   to: 's3://fair-registration.concourseglobal.net'
 
 workflows:
   version: 2
