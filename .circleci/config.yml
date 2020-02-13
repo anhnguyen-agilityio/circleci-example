@@ -16,5 +16,4 @@ workflows:
   version: 2
   aws-cli:
     jobs:
-      - build:
-          context: aws
+      - build
