@@ -11,7 +11,7 @@ jobs:
     executor: docker-executor
     steps:
       - checkout
-      - run: mkdir bucket && echo "lorem ipsum" > bucket/index.txt
+      - run: mkdir bucket && echo "lorem ipsum" > bucket/index-2.txt
       - persist_to_workspace:
           root: .
           paths:
@@ -30,7 +30,7 @@ jobs:
             --cache-control "max-age=86400"
           from: /tmp/workspace/bucket
           overwrite: true
-          to: 's3://fair-registration.concourseglobal.net'
+          to: 's3://$FAIR_REGISTRATION_BUCKET'
   deploy:
     executor: docker-executor
     steps:
