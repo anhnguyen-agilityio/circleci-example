@@ -9,9 +9,9 @@ jobs:
       - checkout
       - run: mkdir bucket && echo "lorem ipsum" > bucket/index.txt
       - persist_to_workspace:
-          root: /tmp/workspace
+          root: .
           paths:
-            - bucket/*
+            - ./bucket
 
   test:
     docker:
