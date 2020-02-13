@@ -8,11 +8,18 @@ jobs:
     steps:
       - checkout
       - run: mkdir bucket && echo "lorem ipsum" > bucket/index.txt
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - bucket/*
+
   test:
     docker:
       - image: 'cimg/python:3.6'
     steps:
       - checkout
+      - attach_workspace:
+          at: /tmp/workspace
       # - run: mkdir bucket && echo "lorem ipsum" > bucket/index-2.txt
       - aws-s3/sync:
           arguments: |
@@ -27,4 +34,6 @@ workflows:
   build_and_test:
     jobs:
       - build
-      - test
+      - test:
+          requires:
+            - build
