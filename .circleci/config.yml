@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run: mkdir bucket && echo "lorem ipsum" > bucket/index.txt
 
-  sync:
+  test:
     docker:
       - image: 'cimg/python:3.6'
     steps:
@@ -27,6 +27,4 @@ workflows:
   build_and_test:
     jobs:
       - build
-      - sync:
-          requires:
-            - build
+      - test
