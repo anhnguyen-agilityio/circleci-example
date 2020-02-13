@@ -1,10 +1,14 @@
 version: 2.1
 orbs:
   aws-s3: circleci/aws-s3@1.0.15
+executors:
+  docker-executor:
+    working_directory: ~/tmp
+    docker:
+      - image: circleci/node:8.15.0
 jobs:
   build:
-    docker:
-      - image: 'cimg/python:3.6'
+    excutor: docker-executor
     steps:
       - checkout
       - run: mkdir bucket && echo "lorem ipsum" > bucket/index.txt
@@ -14,8 +18,7 @@ jobs:
             - ./bucket
 
   test:
-    docker:
-      - image: 'cimg/python:3.6'
+    excutor: docker-executor
     steps:
       - checkout
       - attach_workspace:
@@ -25,7 +28,7 @@ jobs:
           arguments: |
             --acl public-read \
             --cache-control "max-age=86400"
-          from: bucket
+          from: /tmp/workspace/bucket
           overwrite: true
           to: 's3://fair-registration.concourseglobal.net'
 
