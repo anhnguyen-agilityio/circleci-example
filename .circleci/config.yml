@@ -8,7 +8,7 @@ executors:
       - image: circleci/node:8.15.0
 jobs:
   build:
-    excutor: docker-executor
+    executor: docker-executor
     steps:
       - checkout
       - run: mkdir bucket && echo "lorem ipsum" > bucket/index.txt
@@ -18,7 +18,7 @@ jobs:
             - ./bucket
 
   test:
-    excutor: docker-executor
+    executor: docker-executor
     steps:
       - checkout
       - attach_workspace:
