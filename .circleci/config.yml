@@ -6,7 +6,10 @@ jobs:
     executor: aws-cli/default
     steps:
       - checkout
-      - run: echo "Run your code here"
+      - run:
+          name: AWS CLI
+          command: |
+            aws s3 ls
 workflows:
   version: 2
   aws-cli:
