@@ -8,18 +8,10 @@ orbs:
 #     docker:
 #       - image: circleci/python:3.5
 
-jobs:
-  build:
-    # executor: docker-executor
-    steps:
-      - checkout
+workflows:
+  build-and-deploy:
+    jobs:
       - aws-ecr/build-and-push-image:
           dockerfile: docker/Dockerfile
           repo: "docker-img-django"
           tag: 'test'
-
-workflows:
-  version: 2
-  build_and_test:
-    jobs:
-      - build
