@@ -1,64 +1,25 @@
 version: 2.1
 orbs:
   aws-s3: circleci/aws-s3@1.0.15
+  aws-ecr: circleci/aws-ecr@6.9.1
 executors:
   docker-executor:
     working_directory: ~/tmp
     docker:
-      - image: circleci/node:8.15.0
+      - image: circleci/python:3.5
+
 jobs:
   build:
     executor: docker-executor
     steps:
       - checkout
-      - run: mkdir bucket && echo "lorem ipsum" > bucket/index-2.txt
-      - persist_to_workspace:
-          root: .
-          paths:
-            - ./bucket
-
-  test:
-    executor: docker-executor
-    steps:
-      - checkout
-      - attach_workspace:
-          at: /tmp/workspace
-      # - run: mkdir bucket && echo "lorem ipsum" > bucket/index-2.txt
-      - aws-s3/sync:
-          arguments: |
-            --acl public-read \
-            --cache-control "max-age=86400"
-          from: /tmp/workspace/bucket
-          overwrite: true
-          to: 's3://$FAIR_REGISTRATION_BUCKET'
-  deploy:
-    executor: docker-executor
-    steps:
-      - checkout
-      - run: echo "DEPLOY..."
+      - aws-ecr/build-and-push-image:
+          dockerfile: docker/Dockerfile
+          repo: "docker-img-django"
+          tag: 'test'
 
 workflows:
   version: 2
   build_and_test:
     jobs:
       - build
-      - hold:
-          type: approval
-          requires:
-            - build
-      - test:
-          requires:
-            - hold
-          filters:
-            branches:
-              only:
-                - master
-
-      - deploy:
-          requires:
-            - hold
-          filters:
-            branches:
-              only:
-                - develop
-
