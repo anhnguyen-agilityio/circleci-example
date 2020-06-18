@@ -10,7 +10,7 @@ orbs:
 
 jobs:
   build:
-    executor: docker-executor
+    # executor: docker-executor
     steps:
       - checkout
       - aws-ecr/build-and-push-image:
