@@ -2,11 +2,11 @@ version: 2.1
 orbs:
   aws-s3: circleci/aws-s3@1.0.15
   aws-ecr: circleci/aws-ecr@6.9.1
-executors:
-  docker-executor:
-    working_directory: ~/tmp
-    docker:
-      - image: circleci/python:3.5
+# executors:
+#   docker-executor:
+#     working_directory: ~/tmp
+#     docker:
+#       - image: circleci/python:3.5
 
 jobs:
   build:
