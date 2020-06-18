@@ -15,3 +15,7 @@ workflows:
           dockerfile: docker/Dockerfile
           repo: "docker-img-django"
           tag: 'test'
+      - hold:
+          type: approval
+          requires:
+            - aws-ecr/build-and-push-image
